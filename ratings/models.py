@@ -47,7 +47,7 @@ class Rating(models.Model):
     module_instance = models.ForeignKey(ModuleInstance, on_delete=models.PROTECT) #A rating can only be associated with one module instance
     user = models.CharField(max_length=30)
     professor = models.ForeignKey(Professor, on_delete=models.PROTECT) #A rating can only be associated with one professor
-    #create a create fucntion to overide the create function in views.py
+    #create a fucntion to overide the create function in views.py
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         avg_rating = Rating.objects.filter(professor=self.professor).aggregate(Avg("rating"))['rating__avg']# get all ratings for that professor and calculate the average

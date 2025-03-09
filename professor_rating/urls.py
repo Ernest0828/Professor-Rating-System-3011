@@ -19,11 +19,6 @@ from django.urls import path
 from ratings.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('view_mod/', view), #show modules
-    path('view_professor/', view_professor), #show professors
-    path('view_rating/', view_rating), #show ratings
-    path('view_mod_instance/', view_module_instance), #show module instances
-    path('view_cached_rating/', view_cached_rating), #show cached ratings
     path('register/', register_view), #1.register user
     path('login/', login_view), #2.login user
     path('logout/', logout_view), #3.logout user

@@ -4,7 +4,7 @@ from .models import Professor, Module, ModuleInstance, Rating, CachedRating
 class ProfessorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor
-        fields = ['professor_id', 'professor_name', 'average_rating']
+        fields = ['professor_id', 'professor_name']
         
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,12 +12,17 @@ class ModuleSerializer(serializers.ModelSerializer):
         fields = ['module_code', 'module_name']
         
 class ModuleInstanceSerializer(serializers.ModelSerializer):
-    module = ModuleSerializer()
-    #professors = ProfessorSerializer(many=True)
+    # module = ModuleSerializer()
+    professors = serializers.SerializerMethodField()
+    module_name = serializers.CharField(source='module.module_name')
+    module_code = serializers.CharField(source='module.module_code')
     
     class Meta:
         model = ModuleInstance
-        fields = ['module_instance_id', 'semester', 'year', 'professors', 'module']
+        fields = ['module_code', 'semester', 'year', 'module_name', 'professors']
+        
+    def get_professors(self, obj):
+        return [{"professor_id":professor.professor_id, "professor_name":professor.professor_name} for professor in obj.professors.all()]   
         
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
